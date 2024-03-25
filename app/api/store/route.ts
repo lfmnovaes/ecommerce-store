@@ -17,16 +17,16 @@ export async function POST(req: Request) {
       return new NextResponse('Bad Request', {status: 400});
     }
 
-    const organization = await prismadb.organization.create({
+    const store = await prismadb.store.create({
       data: {
         name: name,
-        ownerId: userId
+        userId
       }
     });
 
-    return NextResponse.json(organization);
+    return NextResponse.json(store);
   } catch (error) {
-    console.error('[ORGANIZATION_POST]', error);
+    console.error('[STORE_POST]', error);
     return new NextResponse('Internal Server Error', {status: 500});
   }
 }

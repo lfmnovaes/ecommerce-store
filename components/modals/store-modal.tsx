@@ -5,7 +5,6 @@ import * as z from 'zod';
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import axios from 'axios';
-import toast from 'react-hot-toast';
 
 import {useStoreModal} from '@/hooks/use-store-modal';
 import Modal from '@/components/ui/modal';
@@ -19,6 +18,7 @@ import {
 } from '@/components/ui/form';
 import {Input} from '@/components/ui/input';
 import {Button} from '@/components/ui/button';
+import {useToast} from '@/hooks/use-toast';
 
 const formSchema = z.object({
   name: z.string().min(1)
@@ -26,6 +26,7 @@ const formSchema = z.object({
 
 export const StoreModal = () => {
   const {isOpen, onClose} = useStoreModal();
+  const {toast} = useToast();
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -36,12 +37,20 @@ export const StoreModal = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       setIsLoading(true);
-      const response = await axios.post('/api/organizations', values);
+      const response = await axios.post('/api/store', values);
 
-      console.log(response.data);
-      toast.success('Organization created successfully');
+      toast({
+        title: 'Store created successfully',
+        description: 'You can now manage products and categories'
+      });
+
+      window.location.assign(`/${response.data.id}`);
     } catch (error) {
-      toast.error('Something went wrong');
+      toast({
+        variant: 'destructive',
+        title: 'Uh oh! Something went wrong.',
+        description: 'There was a problem with your request.'
+      });
     } finally {
       setIsLoading(false);
     }
@@ -49,8 +58,8 @@ export const StoreModal = () => {
 
   return (
     <Modal
-      title="Create Organization"
-      description="Add a new organization to manage events and categories"
+      title="Create Store"
+      description="Add a new store to manage products and categories"
       isOpen={isOpen}
       onClose={onClose}
     >
@@ -69,7 +78,7 @@ export const StoreModal = () => {
                         {...field}
                         disabled={isLoading}
                         type="text"
-                        placeholder="Organization Name"
+                        placeholder="E-Commerce"
                       />
                     </FormControl>
                     <FormMessage />
