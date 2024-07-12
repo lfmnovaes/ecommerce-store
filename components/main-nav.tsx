@@ -19,6 +19,11 @@ export const MainNav = ({
       isActive: pathname.includes(`/${params.storeId}`)
     },
     {
+      href: `/${params.storeId}/billboards`,
+      label: 'Billboards',
+      isActive: pathname.includes(`/${params.storeId}/billboard`)
+    },
+    {
       href: `/${params.storeId}/settings`,
       label: 'Settings',
       isActive: pathname.includes(`/${params.storeId}/settings`)
