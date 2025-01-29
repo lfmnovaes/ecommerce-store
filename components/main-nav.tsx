@@ -16,17 +16,17 @@ export const MainNav = ({
     {
       href: `/${params.storeId}`,
       label: 'Overview',
-      isActive: pathname.includes(`/${params.storeId}`)
+      isActive: pathname === `/${params.storeId}`
     },
     {
       href: `/${params.storeId}/billboards`,
       label: 'Billboards',
-      isActive: pathname.includes(`/${params.storeId}/billboard`)
+      isActive: pathname === `/${params.storeId}/billboards`
     },
     {
       href: `/${params.storeId}/settings`,
       label: 'Settings',
-      isActive: pathname.includes(`/${params.storeId}/settings`)
+      isActive: pathname === `/${params.storeId}/settings`
     }
   ];
 

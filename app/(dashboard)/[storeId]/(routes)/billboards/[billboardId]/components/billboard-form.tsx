@@ -23,7 +23,6 @@ import {
 import {Input} from '@/components/ui/input';
 import {AlertModal} from '@/components/modals/alert-modal';
 import {useToast} from '@/hooks/use-toast';
-import {useOrigin} from '@/hooks/use-origin';
 import ImageUpload from '@/components/ui/image-upload';
 
 const formSchema = z.object({
@@ -41,7 +40,6 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({initialData}) => {
   const params = useParams();
   const router = useRouter();
   const {toast} = useToast();
-  const origin = useOrigin();
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -71,7 +69,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({initialData}) => {
         await axios.post(`/api/${params.storeId}/billboards`, data);
       }
       router.refresh();
-      router.push(`/${params.storeId}/billboards`)
+      router.push(`/${params.storeId}/billboards`);
       toast({
         title: 'Billboard ' + toastMessage,
         description: 'Billboard has been successfully ' + toastMessage + '.'
@@ -95,7 +93,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({initialData}) => {
         `/api/${params.storeId}/billboards/${params.billboardId}`
       );
       router.refresh();
-      router.push('/');
+      router.push(`/${params.storeId}/billboards`);
       toast({
         title: 'Billboard deleted',
         description: 'Billboard has been successfully deleted.'
@@ -109,6 +107,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({initialData}) => {
       });
     } finally {
       setLoading(false);
+      setOpen(false);
     }
   };
 
